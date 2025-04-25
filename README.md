@@ -59,9 +59,50 @@ SQLALCHEMY_DATABASE_URI=sqlite:///data.db
 
 ## 🧪 Running the Application
 
+## 🚀 Running the Application
+
+### 🔧 Prerequisites
+
+Make sure you have the required Python packages installed:
+
+```bash
+pip install flask streamlit requests pandas
+```
+
+---
+
+### 🖥️ 1. Run the Flask Backend
+
+Start your Flask API server:
+
 ```bash
 python app.py
 ```
+
+The backend will start running at:
+
+```
+http://localhost:5555
+```
+
+---
+
+### 💻 2. Run the Streamlit Frontend
+
+In a **new terminal**, launch the Streamlit UI:
+
+```bash
+streamlit run app_frontend.py
+```
+
+This will open the app in your browser at:
+
+```
+http://localhost:8501
+```
+
+If it doesn't open automatically, you can manually navigate to that URL.
+
 
 The server will start at `http://127.0.0.1:5000`.
 
