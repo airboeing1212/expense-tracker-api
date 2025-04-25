@@ -5,6 +5,7 @@ from flask import Blueprint, request, jsonify, current_app
 from models import db, User
 import jwt
 from datetime import datetime, timedelta
+from dotenv import load_dotenv, set_key
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -12,18 +13,18 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 def register():
     data = request.get_json()
     
-    # Validate input
+
     if not data or not data.get('username') or not data.get('email') or not data.get('password'):
-        return jsonify({'message': 'Missing required fields!'}), 400
+        return jsonify({'message': 'Missing fields!'}), 400
     
-    # Check if user already exists
+
     if User.query.filter_by(username=data['username']).first():
         return jsonify({'message': 'Username already exists!'}), 409
     
     if User.query.filter_by(email=data['email']).first():
         return jsonify({'message': 'Email already exists!'}), 409
     
-    # Create new user
+
     new_user = User(
         username=data['username'],
         email=data['email']
@@ -47,7 +48,7 @@ def login():
     if not user or not user.verify_password(data['password']):
         return jsonify({'message': 'Invalid credentials!'}), 401
     
-    # Generate JWT token
+
     token = jwt.encode(
         {
             'user_id': user.id,
@@ -56,7 +57,7 @@ def login():
         current_app.config['JWT_SECRET_KEY'],
         algorithm="HS256"
     )
-    
+
     return jsonify({
         'message': 'Login successful!',
         'token': token,
