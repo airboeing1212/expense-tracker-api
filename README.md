@@ -4,12 +4,11 @@ A simple RESTful API built with Flask to manage user authentication and personal
 
 ## 🚀 Features
 
-- User registration and login  
-- Secure password hashing with Werkzeug  
-- JWT-based authentication and token validation  
-- Middleware to protect private routes  
-- Expense creation, retrieval, and listing per user  
-- SQLite database integration via SQLAlchemy  
+- User registration and login
+- JWT-based authentication and token validation
+- Middleware to protect private routes
+- Expense creation, retrieval, and listing per user
+- SQLite database integration via SQLAlchemy
 - Flask Blueprints for modular route management
 
 ## 🏗️ Project Structure
@@ -42,31 +41,15 @@ expense-tracker-api/
 - SQLAlchemy
 - python-dotenv
 
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-## ⚙️ Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-JWT_SECRET_KEY=your_jwt_secret_key
-SQLALCHEMY_DATABASE_URI=sqlite:///data.db
-```
-
-## 🧪 Running the Application
 
 ## 🚀 Running the Application
 
 ### 🔧 Prerequisites
 
-Make sure you have the required Python packages installed:
+Install dependencies:
 
 ```bash
-pip install flask streamlit requests pandas
+pip install -r requirements.txt
 ```
 
 ---
@@ -104,7 +87,7 @@ http://localhost:8501
 If it doesn't open automatically, you can manually navigate to that URL.
 
 
-The server will start at `http://127.0.0.1:5000`.
+The server will start at `http://127.0.0.1:5555`.
 
 ## 🔐 Authentication
 
@@ -136,8 +119,7 @@ JWT validation is handled by the `@token_required` decorator in `auth_middleware
 
 ## 🛠️ To Do
 
-- Update/Delete expense endpoints  
-- Unit tests  
+- Update/Delete expense endpoints   
 - Pagination for large expense lists  
 - Token refresh system
 
