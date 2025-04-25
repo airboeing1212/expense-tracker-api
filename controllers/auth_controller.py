@@ -1,6 +1,3 @@
-"""
-Authentication controllers for user registration and login
-"""
 from flask import Blueprint, request, jsonify, current_app
 from models import db, User
 import jwt

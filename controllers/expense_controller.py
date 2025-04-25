@@ -1,6 +1,3 @@
-"""
-Controllers for expense management
-"""
 from flask import Blueprint, request, jsonify
 from models import db, Expense, CategoryEnum
 from middlewares.auth_middleware import token_required
@@ -64,7 +61,7 @@ def create_expense(current_user):
     if not data or not data.get('title') or not data.get('amount') or not data.get('category'):
         return jsonify({'message': 'Missing required fields!'}), 400
     
-    # Validate category
+
     try:
         category = CategoryEnum[data['category'].upper()]
     except KeyError:
@@ -73,7 +70,7 @@ def create_expense(current_user):
             'message': f'Invalid category! Valid categories are: {valid_categories}'
         }), 400
     
-    # Create expense
+
     try:
         expense_date = datetime.fromisoformat(data.get('date')) if data.get('date') else datetime.utcnow()
     except ValueError:
@@ -106,7 +103,7 @@ def update_expense(current_user, expense_id):
     
     data = request.get_json()
     
-    # Update fields if provided
+
     if data.get('title'):
         expense.title = data['title']
     

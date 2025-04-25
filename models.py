@@ -1,6 +1,4 @@
-"""
-Database models for the expense tracker
-"""
+
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import enum

@@ -1,22 +1,22 @@
-# app_frontend.py
+
 import streamlit as st
 import requests
 import pandas as pd
 from datetime import datetime, timedelta
 
-# API URL
+
 API_BASE_URL = "http://localhost:5555/api"
 
-# State management
+
 if 'token' not in st.session_state:
     st.session_state.token = None
 if 'user' not in st.session_state:
     st.session_state.user = None
 
-# Page title
+
 st.title("Expense Tracker")
 
-# Login/Registration Section
+
 if not st.session_state.token:
     tab1, tab2 = st.tabs(["Login", "Register"])
     
@@ -67,7 +67,7 @@ if not st.session_state.token:
             except Exception as e:
                 st.error(f"Error: {str(e)}")
 else:
-    # Logout button
+
     col1, col2 = st.columns([9, 1])
     with col2:
         if st.button("Logout"):
@@ -78,10 +78,10 @@ else:
     with col1:
         st.write(f"Welcome, **{st.session_state.user['username']}**!")
     
-    # Expense Management
+
     tab1, tab2 = st.tabs(["View Expenses", "Add Expense"])
     
-    # Helper function to get expenses
+
     def get_expenses(filter_type='all', start_date=None, end_date=None):
         headers = {"Authorization": f"Bearer {st.session_state.token}"}
         params = {"filter": filter_type}
@@ -101,7 +101,7 @@ else:
     with tab1:
         st.header("Your Expenses")
         
-        # Filter options
+
         filter_option = st.selectbox(
             "Filter by time period:",
             ["All", "Past Week", "Past Month", "Past 3 Months", "Custom Date Range"]
@@ -130,10 +130,10 @@ else:
             expenses = get_expenses(filter_map[filter_option])
         
         if expenses:
-            # Convert to DataFrame for better display
+    
             df = pd.DataFrame(expenses)
             
-            # Format the DataFrame
+        
             if not df.empty:
                 df['date'] = pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d %H:%M')
                 df = df[['title', 'amount', 'category', 'date', 'description', 'id']]
@@ -141,11 +141,11 @@ else:
                 
                 st.dataframe(df, use_container_width=True)
                 
-                # Total amount
+    
                 total = df['Amount'].sum()
                 st.metric("Total Amount", f"${total:.2f}")
                 
-                # Edit/Delete expense
+    
                 col1, col2 = st.columns(2)
                 with col1:
                     expense_id = st.number_input("Enter Expense ID to Edit/Delete", min_value=1, step=1)
@@ -154,7 +154,7 @@ else:
                     action = st.selectbox("Action", ["Edit", "Delete"])
                 
                 if action == "Edit" and st.button("Proceed with Edit"):
-                    # Get the expense details
+                
                     expense_to_edit = next((e for e in expenses if e['id'] == expense_id), None)
                     if expense_to_edit:
                         st.session_state.editing_expense = expense_to_edit
@@ -181,7 +181,7 @@ else:
         else:
             st.info("No expenses found for the selected time period.")
     
-    # Edit expense form
+
     if 'editing' in st.session_state and st.session_state.editing:
         st.header("Edit Expense")
         expense = st.session_state.editing_expense
@@ -201,7 +201,7 @@ else:
             if st.button("Update Expense"):
                 try:
                     headers = {"Authorization": f"Bearer {st.session_state.token}"}
-                    # Convert date to datetime with time from the original expense
+    
                     original_time = pd.to_datetime(expense['date']).time()
                     updated_datetime = datetime.combine(date, original_time)
                     
@@ -233,8 +233,8 @@ else:
     
     with tab2:
         st.header("Add New Expense")
-        
-        # Form inputs
+
+
         title = st.text_input("Title")
         amount = st.number_input("Amount", min_value=0.01, step=0.01)
         category = st.selectbox("Category", ["GROCERIES", "LEISURE", "ELECTRONICS", "UTILITIES", "CLOTHING", "HEALTH", "OTHERS"])
@@ -244,7 +244,7 @@ else:
         
         if st.button("Add Expense"):
             try:
-                # Combine date and time
+            
                 expense_datetime = datetime.combine(date, time_input)
                 
                 headers = {"Authorization": f"Bearer {st.session_state.token}"}
@@ -262,7 +262,7 @@ else:
                 
                 if response.status_code == 201:
                     st.success("Expense added successfully!")
-                    # Clear form
+                
                     st.text_input("Title", value="")
                     st.number_input("Amount", value=0.0, min_value=0.01, step=0.01)
                     st.text_area("Description", value="")
@@ -273,5 +273,5 @@ else:
                 st.error(f"Error: {str(e)}")
 
 if __name__ == "__main__":
-    # Run with: streamlit run app_frontend.py
+    # Run: streamlit run app_frontend.py
     pass

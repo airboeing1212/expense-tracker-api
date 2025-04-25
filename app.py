@@ -9,15 +9,15 @@ def create_app(config_class='config.Config'):
     app = Flask(__name__)
     app.config.from_object(config_class)
     
-    # Initialize extensions
+
     db.init_app(app)
     CORS(app)
     
-    # Register blueprints
+
     app.register_blueprint(auth_bp)
     app.register_blueprint(expense_bp)
     
-    # Create database tables
+
     with app.app_context():
         db.create_all()
     
@@ -33,5 +33,5 @@ def create_app(config_class='config.Config'):
 
 if __name__ == '__main__':
     app = create_app()
-    port = int(os.environ.get('PORT', 5555))
+    port = int(os.environ.get('PORT', 5555)) # It will use 5555 as default. You can change it.
     app.run(host='0.0.0.0', port=port, debug=True)
